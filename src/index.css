@@ -8,6 +8,9 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  background: url('/background.png') no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
 }
 
 code {
