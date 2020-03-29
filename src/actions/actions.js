@@ -1,11 +1,16 @@
 import * as types from "../constants";
 
-export const setCurrentFigure = (figure, color) => ({
+export const createNextFigure = () => ({
+  type: types.CREATE_NEXT_FIGURE
+});
+
+export const setCurrentFigure = figure => ({
   type: types.SET_CURRENT_FIGURE,
-  payload: {
-    ...figure,
-    color
-  }
+  payload: figure
+});
+
+export const rotateFigure = () => ({
+  type: types.ROTATE_FIGURE
 });
 
 export const moveDown = () => ({

@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import CurrentFigure from "../current-figure/current-figure";
 import { useDispatch, useSelector } from "react-redux";
-import { moveDown, moveLeft, moveRight } from "../../actions/actions";
+import {
+  rotateFigure,
+  moveLeft,
+  moveRight,
+  moveDown
+} from "../../actions/actions";
 import styled from "styled-components";
 
 const PlayingFieldWrapper = styled.div`
@@ -31,6 +36,7 @@ const PlayingField = () => {
         break;
       }
       case 38: {
+        dispatch(rotateFigure());
         break;
       }
       case 39: {
@@ -38,7 +44,8 @@ const PlayingField = () => {
         break;
       }
       case 40: {
-        setFigureSpeed(500);
+        //setFigureSpeed(500);
+        dispatch(moveDown());
         break;
       }
       default:
