@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CurrentFigure from "../current-figure/current-figure";
+import FallenFigures from "../fallen-figures/fallen-figures";
 import { useDispatch, useSelector } from "react-redux";
 import {
   rotateFigure,
   moveLeft,
   moveRight,
-  moveDown
+  moveDown,
+  setCurrentFigure,
+  clearNextFigure,
+  clearCurrentFigure,
+  addFallenFigure
 } from "../../actions/actions";
 import styled from "styled-components";
 
@@ -18,21 +23,36 @@ const PlayingFieldWrapper = styled.div`
   outline: none;
 `;
 
-const PlayingField = () => {
+const PlayingField = ({ nextFigure }) => {
+  const [figureSpeed, setFigureSpeed] = useState(1000);
   const dispatch = useDispatch();
   const currentFigure = useSelector(state => state.currentFigure);
-  const [figureSpeed, setFigureSpeed] = useState(3000);
+  const fallenFigures = useSelector(state => state.fallenFigures);
+
+  useEffect(() => {
+    if (!nextFigure.isEmpty && currentFigure.isEmpty) {
+      dispatch(setCurrentFigure(nextFigure));
+      dispatch(clearNextFigure());
+    }
+  }, [currentFigure.isEmpty, dispatch, nextFigure]);
+
+  useEffect(() => {
+    if (currentFigure.isFallen) {
+      dispatch(addFallenFigure(currentFigure));
+      dispatch(clearCurrentFigure());
+    }
+  }, [currentFigure, dispatch]);
 
   const handleKeyUp = e => {
     if (e.keyCode === 40) {
-      setFigureSpeed(3000);
+      setFigureSpeed(500);
     }
   };
 
   const handleKeyDown = e => {
     switch (+e.keyCode) {
       case 37: {
-        dispatch(moveLeft());
+        dispatch(moveLeft(fallenFigures));
         break;
       }
       case 38: {
@@ -40,12 +60,11 @@ const PlayingField = () => {
         break;
       }
       case 39: {
-        dispatch(moveRight());
+        dispatch(moveRight(fallenFigures));
         break;
       }
       case 40: {
-        //setFigureSpeed(500);
-        dispatch(moveDown());
+        dispatch(moveDown(fallenFigures));
         break;
       }
       default:
@@ -59,7 +78,9 @@ const PlayingField = () => {
       onKeyUp={handleKeyUp}
       tabIndex="0"
     >
-      <CurrentFigure figure={currentFigure} speed={figureSpeed} />
+      <CurrentFigure figure={currentFigure} />
+
+      <FallenFigures figures={fallenFigures} />
     </PlayingFieldWrapper>
   );
 };

@@ -4,23 +4,39 @@ export const createNextFigure = () => ({
   type: types.CREATE_NEXT_FIGURE
 });
 
+export const clearNextFigure = () => ({
+  type: types.CLEAR_NEXT_FIGURE
+});
+
 export const setCurrentFigure = figure => ({
   type: types.SET_CURRENT_FIGURE,
   payload: figure
+});
+
+export const clearCurrentFigure = () => ({
+  type: types.CLEAR_CURRENT_FIGURE
 });
 
 export const rotateFigure = () => ({
   type: types.ROTATE_FIGURE
 });
 
-export const moveDown = () => ({
-  type: types.MOVE_DOWN
+export const moveDown = fallenFigures => ({
+  type: types.MOVE_DOWN,
+  payload: fallenFigures
 });
 
-export const moveLeft = () => ({
-  type: types.MOVE_LEFT
+export const moveLeft = fallenFigures => ({
+  type: types.MOVE_LEFT,
+  payload: fallenFigures
 });
 
-export const moveRight = () => ({
-  type: types.MOVE_RIGHT
+export const moveRight = fallenFigures => ({
+  type: types.MOVE_RIGHT,
+  payload: fallenFigures
+});
+
+export const addFallenFigure = figure => ({
+  type: types.ADD_FALLEN_FIGURE,
+  payload: figure
 });

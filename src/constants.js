@@ -1,9 +1,12 @@
 export const CREATE_NEXT_FIGURE = "CREATE_NEXT_FIGURE";
+export const CLEAR_NEXT_FIGURE = "CLEAR_NEXT_FIGURE";
 export const SET_CURRENT_FIGURE = "SET_CURRENT_FIGURE";
+export const CLEAR_CURRENT_FIGURE = "CLEAR_CURRENT_FIGURE";
 export const MOVE_DOWN = "MOVE_DOWN";
 export const MOVE_LEFT = "MOVE_LEFT";
 export const MOVE_RIGHT = "MOVE_RIGHT";
 export const ROTATE_FIGURE = "ROTATE_FIGURE";
+export const ADD_FALLEN_FIGURE = "ADD_FALLEN_FIGURE";
 
 export const COLORS = [
   "red",
@@ -14,6 +17,7 @@ export const COLORS = [
   "gold",
   "pink"
 ];
+
 export const FIGURES = [
   {
     name: "square",

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import PlayingField from "../playing-field/playing-field";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentFigure, createNextFigure } from "../../actions/actions";
+import { createNextFigure } from "../../actions/actions";
 
 const TableWrapper = styled.div`
   display: flex;
@@ -18,19 +18,14 @@ const TableWrapper = styled.div`
 const Table = () => {
   const dispatch = useDispatch();
   const nextFigure = useSelector(state => state.nextFigure);
-  const currentFigure = useSelector(state => state.currentFigure);
 
   useEffect(() => {
-    if (nextFigure.isEmpty) {
-      dispatch(createNextFigure());
-    }
-    if (!nextFigure.isEmpty && currentFigure.isEmpty)
-      dispatch(setCurrentFigure(nextFigure));
-  }, [dispatch, nextFigure, currentFigure]);
+    if (nextFigure.isEmpty) dispatch(createNextFigure());
+  }, [dispatch, nextFigure.isEmpty]);
 
   return (
     <TableWrapper>
-      <PlayingField />
+      <PlayingField nextFigure={nextFigure} />
     </TableWrapper>
   );
 };

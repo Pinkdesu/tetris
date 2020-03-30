@@ -2,13 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const SquareWrapper = styled.div`
+const SquareWrapper = styled.div.attrs(props => ({
+  style: {
+    left: `${props.x}px`,
+    top: `${props.y}px`,
+    backgroundColor: props.color
+  }
+}))`
   position: absolute;
-  left: ${props => props.x + "px"};
-  top: ${props => props.y + "px"};
   width: 40px;
   height: 40px;
-  background-color: ${props => props.color};
 `;
 
 const Square = ({ color, x, y }) => {
