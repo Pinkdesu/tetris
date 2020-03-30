@@ -1,10 +1,7 @@
 import * as types from "../constants";
 import { rotateFigure } from "./next-figure";
 
-let initialState = {
-  name: "default",
-  color: "red",
-  coords: [],
+const initialState = {
   isEmpty: true
 };
 
@@ -14,8 +11,8 @@ const currentFigure = (state = initialState, { type, payload }) => {
       return { ...state, ...payload, isEmpty: false };
     }
     case types.ROTATE_FIGURE: {
-      const newCoords = rotateFigure(state.coords, 1);
-      return { ...state, coords: newCoords };
+      const figure = rotateFigure(state);
+      return { ...state, ...figure };
     }
     case types.MOVE_DOWN: {
       const newCoords = state.coords.map(item => ({
