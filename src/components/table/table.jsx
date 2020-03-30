@@ -8,7 +8,7 @@ const TableWrapper = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 20px;
   background-color: rgba(0, 0, 0, 0.3);
   width: 1000px;
   height: 800px;

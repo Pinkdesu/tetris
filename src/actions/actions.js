@@ -17,8 +17,9 @@ export const clearCurrentFigure = () => ({
   type: types.CLEAR_CURRENT_FIGURE
 });
 
-export const rotateFigure = () => ({
-  type: types.ROTATE_FIGURE
+export const rotateFigure = fallenFigures => ({
+  type: types.ROTATE_FIGURE,
+  payload: fallenFigures
 });
 
 export const moveDown = fallenFigures => ({

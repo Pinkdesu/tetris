@@ -56,7 +56,8 @@ const PlayingField = ({ nextFigure }) => {
         break;
       }
       case 38: {
-        if (currentFigure.name !== "square") dispatch(rotateFigure());
+        if (currentFigure.name !== "square")
+          dispatch(rotateFigure(fallenFigures));
         break;
       }
       case 39: {
