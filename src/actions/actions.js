@@ -41,3 +41,7 @@ export const addFallenFigure = figure => ({
   type: types.ADD_FALLEN_FIGURE,
   payload: figure
 });
+
+export const clearFilledLine = () => ({
+  type: types.CLEAR_FILLED_LINES
+});

@@ -1,24 +1,23 @@
 import React from "react";
 import Square from "../square/square";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-const FallenFigures = () => {
-  const fallenFigures = useSelector(state => state.fallenFigures);
+const FallenFigures = ({ figures }) => {
+  const dispatch = useDispatch();
+  const isEmpty = Object.keys(figures).length === 0;
+  const lines = Object.entries(figures);
 
   return (
     <>
-      {fallenFigures.length === 0
+      {isEmpty
         ? null
-        : fallenFigures.map((figure, index) => (
-            <Square
-              key={index}
-              color={figure.color}
-              x={figure.x}
-              y={figure.y}
-            />
-          ))}
+        : lines.map(line =>
+            line[1].map((item, i) => (
+              <Square key={i} x={item.x} y={+line[0]} color={item.color} />
+            ))
+          )}
     </>
   );
 };
 
-export default FallenFigures;
+export default React.memo(FallenFigures);

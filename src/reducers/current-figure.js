@@ -6,7 +6,10 @@ const initialState = {
 };
 
 const findMatch = (checkedX, checkedY, coordsToCheck) => {
-  return coordsToCheck.some(({ x, y }) => y === checkedY && x === checkedX);
+  if (checkedY in coordsToCheck) {
+    return coordsToCheck[checkedY].some(item => item.x === checkedX);
+  }
+  return false;
 };
 
 const moveFigure = (coords, deltaX, deltaY, coordsToCheck) => {
@@ -32,7 +35,7 @@ const rotateFigure = ({ positionCount, position, coords }, coordsToCheck) => {
   let maxX = 0;
   let maxY = 0;
   let newPosition = position < positionCount ? position + 1 : 1;
-  let deltaX = newPosition % 2 === 0 ? 80 : 40;
+  let deltaX = newPosition % 2 === 0 ? 80 : 40; //чтобы фигура поворачивалась без сдвигов
   let newCoords = [...coords];
 
   newCoords.forEach(coord => {

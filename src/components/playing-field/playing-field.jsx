@@ -10,7 +10,8 @@ import {
   setCurrentFigure,
   clearNextFigure,
   clearCurrentFigure,
-  addFallenFigure
+  addFallenFigure,
+  clearFilledLine
 } from "../../actions/actions";
 import styled from "styled-components";
 
@@ -24,7 +25,7 @@ const PlayingFieldWrapper = styled.div`
 `;
 
 const PlayingField = ({ nextFigure }) => {
-  const [figureSpeed, setFigureSpeed] = useState(1000);
+  const [speed, setFigureSpeed] = useState(500);
   const dispatch = useDispatch();
   const currentFigure = useSelector(state => state.currentFigure);
   const fallenFigures = useSelector(state => state.fallenFigures);
@@ -39,9 +40,18 @@ const PlayingField = ({ nextFigure }) => {
   useEffect(() => {
     if (currentFigure.isFallen) {
       dispatch(addFallenFigure(currentFigure));
+      dispatch(clearFilledLine());
       dispatch(clearCurrentFigure());
     }
   }, [currentFigure, dispatch]);
+
+  useEffect(() => {
+    const timerId = setInterval(() => dispatch(moveDown(fallenFigures)), speed);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [dispatch, fallenFigures, speed]);
 
   const handleKeyUp = e => {
     if (e.keyCode === 40) {
@@ -56,8 +66,7 @@ const PlayingField = ({ nextFigure }) => {
         break;
       }
       case 38: {
-        if (currentFigure.name !== "square")
-          dispatch(rotateFigure(fallenFigures));
+        dispatch(rotateFigure(fallenFigures));
         break;
       }
       case 39: {
@@ -65,7 +74,7 @@ const PlayingField = ({ nextFigure }) => {
         break;
       }
       case 40: {
-        dispatch(moveDown(fallenFigures));
+        setFigureSpeed(60);
         break;
       }
       default:
