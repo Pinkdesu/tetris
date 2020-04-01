@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
+import { TableContext } from "../table/table";
 import styled from "styled-components";
 
-const SquareWrapper = styled.div.attrs(props => ({
+const SquareWrapper = styled.div.attrs(({ x, y, color, width }) => ({
   style: {
-    left: `${props.x}px`,
-    top: `${props.y}px`,
-    backgroundColor: props.color
+    left: `${width * x}px`,
+    top: `${width * y}px`,
+    backgroundColor: color
   }
 }))`
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: ${props => props.width}px;
+  height: ${props => props.width}px;
   box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.9);
 `;
 
 const Square = ({ color, x, y }) => {
-  return <SquareWrapper x={x} y={y} color={color} />;
+  const { width } = useContext(TableContext);
+  return <SquareWrapper width={width} x={x} y={y} color={color} />;
 };
 
 Square.propTypes = {

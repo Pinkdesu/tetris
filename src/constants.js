@@ -1,3 +1,5 @@
+export const START_GAME = "START_GAME";
+
 export const CREATE_NEXT_FIGURE = "CREATE_NEXT_FIGURE";
 export const CLEAR_NEXT_FIGURE = "CLEAR_NEXT_FIGURE";
 export const SET_CURRENT_FIGURE = "SET_CURRENT_FIGURE";
@@ -36,6 +38,8 @@ export const FIGURES = [
   {
     name: "square",
     positionCount: 1,
+    startWidth: 2,
+    startHeight: 2,
     startCoords: [
       {
         x: 0,
@@ -58,6 +62,8 @@ export const FIGURES = [
   {
     name: "line",
     positionCount: 2,
+    startWidth: 1,
+    startHeight: 4,
     startCoords: [
       {
         x: 0,
@@ -80,6 +86,8 @@ export const FIGURES = [
   {
     name: "t-junction",
     positionCount: 4,
+    startWidth: 3,
+    startHeight: 2,
     startCoords: [
       {
         x: 1,
@@ -102,6 +110,8 @@ export const FIGURES = [
   {
     name: "zigzag",
     positionCount: 2,
+    startWidth: 3,
+    startHeight: 2,
     startCoords: [
       {
         x: 0,
@@ -124,6 +134,8 @@ export const FIGURES = [
   {
     name: "re-zigzag",
     positionCount: 2,
+    startWidth: 3,
+    startHeight: 2,
     startCoords: [
       {
         x: 2,
@@ -146,6 +158,8 @@ export const FIGURES = [
   {
     name: "angle",
     positionCount: 4,
+    startWidth: 2,
+    startHeight: 3,
     startCoords: [
       {
         x: 0,
@@ -168,6 +182,8 @@ export const FIGURES = [
   {
     name: "re-angle",
     positionCount: 4,
+    startWidth: 2,
+    startHeight: 3,
     startCoords: [
       {
         x: 1,

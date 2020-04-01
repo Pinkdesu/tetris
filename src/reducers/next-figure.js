@@ -10,23 +10,25 @@ const getRandomInRange = (min, max) =>
 export const nextFigure = (state = initialState, { type }) => {
   switch (type) {
     case types.CREATE_NEXT_FIGURE: {
-      const deltaX = 40 * getRandomInRange(0, 8);
+      const deltaX = getRandomInRange(0, 8);
       const index = getRandomInRange(0, types.FIGURES.length);
       const positionCount = types.FIGURES[index].positionCount;
-      const position = 1;
       const color = types.COLORS[getRandomInRange(0, types.COLORS.length)];
       const name = types.FIGURES[index].name;
-      const coords = types.FIGURES[index].startCoords.map(item => ({
-        x: 40 * item.x + deltaX,
-        y: 40 * item.y
-      }));
+      const startCoords = types.FIGURES[index].startCoords;
+      const startWidth = types.FIGURES[index].startWidth;
+      const startHeight = types.FIGURES[index].starHeight;
+      const position = 1;
+
       return {
-        ...state,
         name,
         color,
         positionCount,
         position,
-        coords,
+        deltaX,
+        startWidth,
+        startHeight,
+        startCoords,
         isEmpty: false
       };
     }

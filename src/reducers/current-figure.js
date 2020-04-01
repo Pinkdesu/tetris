@@ -21,9 +21,9 @@ const moveFigure = (coords, deltaX, deltaY, coordsToCheck) => {
     let flag = findMatch(x, y, coordsToCheck);
     //проверяем по каакой оси движение
     if (deltaX !== 0 && deltaY === 0) {
-      if (x < 0 || x >= 400 || flag) return null; //X
+      if (x < 0 || x >= 10 || flag) return null; //X
     } else {
-      if (y < 0 || y >= 800 || flag) return { isFallen: true }; //Y
+      if (y < 0 || y >= 20 || flag) return { isFallen: true }; //Y
     }
     newCoords[i] = { x, y };
   }
@@ -35,7 +35,7 @@ const rotateFigure = ({ positionCount, position, coords }, coordsToCheck) => {
   let maxX = 0;
   let maxY = 0;
   let newPosition = position < positionCount ? position + 1 : 1;
-  let deltaX = newPosition % 2 === 0 ? 80 : 40; //чтобы фигура поворачивалась без сдвигов
+  let deltaX = newPosition % 2 === 0 ? 2 : 1; //чтобы фигура поворачивалась без сдвигов
   let newCoords = [...coords];
 
   newCoords.forEach(coord => {
@@ -47,7 +47,7 @@ const rotateFigure = ({ positionCount, position, coords }, coordsToCheck) => {
     let x = maxX - (deltaX - (maxY - newCoords[j].y));
     let y = maxY - (maxX - newCoords[j].x);
     let flag = findMatch(x, y, coordsToCheck);
-    if (x >= 400 || y >= 800 || x < 0 || y < 0 || flag) return null;
+    if (x >= 10 || y >= 20 || x < 0 || y < 0 || flag) return null;
     else {
       newCoords[j] = { x, y };
     }
@@ -62,22 +62,28 @@ const rotateFigure = ({ positionCount, position, coords }, coordsToCheck) => {
 export const currentFigure = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.SET_CURRENT_FIGURE: {
-      return { ...state, ...payload, isEmpty: false };
+      const { startCoords, deltaX, ...other } = payload;
+      const coords = startCoords.map(coord => ({
+        x: coord.x + deltaX,
+        y: coord.y
+      }));
+
+      return { ...state, ...other, coords, isEmpty: false };
     }
     case types.ROTATE_FIGURE: {
       const newState = rotateFigure(state, payload);
       return newState === null ? state : { ...state, ...newState };
     }
     case types.MOVE_DOWN: {
-      const newState = moveFigure(state.coords, 0, 40, payload);
+      const newState = moveFigure(state.coords, 0, 1, payload);
       return newState === null ? state : { ...state, ...newState };
     }
     case types.MOVE_LEFT: {
-      const newState = moveFigure(state.coords, -40, 0, payload);
+      const newState = moveFigure(state.coords, -1, 0, payload);
       return newState === null ? state : { ...state, ...newState };
     }
     case types.MOVE_RIGHT: {
-      const newState = moveFigure(state.coords, 40, 0, payload);
+      const newState = moveFigure(state.coords, 1, 0, payload);
       return newState === null ? state : { ...state, ...newState };
     }
     case types.CLEAR_CURRENT_FIGURE: {

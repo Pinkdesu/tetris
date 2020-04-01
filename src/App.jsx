@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Table from "./components/table/table";
+import { Table } from "./components/table/table";
 
 const Wrapper = styled.div`
   display: flex;
