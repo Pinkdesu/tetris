@@ -10,13 +10,26 @@ export const ROTATE_FIGURE = "ROTATE_FIGURE";
 export const ADD_FALLEN_FIGURE = "ADD_FALLEN_FIGURE";
 
 export const COLORS = [
-  "red",
-  "green",
-  "blue",
-  "yellow",
-  "orange",
-  "gold",
-  "pink"
+  "#ff8a80",
+  "#ff5252",
+  "#ff1744",
+  "#d50000",
+  "#ff80ab",
+  "#ff4081",
+  "#f50057",
+  "#c51162",
+  "#ea80fc",
+  "#e040fb",
+  "#d500f9",
+  "#aa00ff",
+  "#b388ff",
+  "#7c4dff",
+  "#651fff",
+  "#6200ea",
+  "#8c9eff",
+  "#536dfe",
+  "#3d5afe",
+  "#304ffe"
 ];
 
 export const FIGURES = [

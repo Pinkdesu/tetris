@@ -1,9 +1,8 @@
 import React from "react";
 import Square from "../square/square";
-import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
 const FallenFigures = ({ figures }) => {
-  const dispatch = useDispatch();
   const isEmpty = Object.keys(figures).length === 0;
   const lines = Object.entries(figures);
 
@@ -18,6 +17,13 @@ const FallenFigures = ({ figures }) => {
           )}
     </>
   );
+};
+
+FallenFigures.propTypes = {
+  figures: PropTypes.object
+};
+FallenFigures.defaultProps = {
+  figures: {}
 };
 
 export default React.memo(FallenFigures);

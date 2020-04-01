@@ -12,6 +12,7 @@ const SquareWrapper = styled.div.attrs(props => ({
   position: absolute;
   width: 40px;
   height: 40px;
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.9);
 `;
 
 const Square = ({ color, x, y }) => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CurrentFigure from "../current-figure/current-figure";
 import FallenFigures from "../fallen-figures/fallen-figures";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
   rotateFigure,
@@ -38,20 +39,28 @@ const PlayingField = ({ nextFigure }) => {
   }, [currentFigure.isEmpty, dispatch, nextFigure]);
 
   useEffect(() => {
+    if (fallenFigures.filledLines.length !== 0) {
+      dispatch(clearFilledLine());
+    }
+  }, [dispatch, fallenFigures.filledLines]);
+
+  useEffect(() => {
     if (currentFigure.isFallen) {
       dispatch(addFallenFigure(currentFigure));
-      dispatch(clearFilledLine());
       dispatch(clearCurrentFigure());
     }
   }, [currentFigure, dispatch]);
 
   useEffect(() => {
-    const timerId = setInterval(() => dispatch(moveDown(fallenFigures)), speed);
+    const timerId = setInterval(
+      () => dispatch(moveDown(fallenFigures.lines)),
+      speed
+    );
 
     return () => {
       clearTimeout(timerId);
     };
-  }, [dispatch, fallenFigures, speed]);
+  }, [dispatch, fallenFigures.lines, speed]);
 
   const handleKeyUp = e => {
     if (e.keyCode === 40) {
@@ -62,15 +71,15 @@ const PlayingField = ({ nextFigure }) => {
   const handleKeyDown = e => {
     switch (+e.keyCode) {
       case 37: {
-        dispatch(moveLeft(fallenFigures));
+        dispatch(moveLeft(fallenFigures.lines));
         break;
       }
       case 38: {
-        dispatch(rotateFigure(fallenFigures));
+        dispatch(rotateFigure(fallenFigures.lines));
         break;
       }
       case 39: {
-        dispatch(moveRight(fallenFigures));
+        dispatch(moveRight(fallenFigures.lines));
         break;
       }
       case 40: {
@@ -90,9 +99,16 @@ const PlayingField = ({ nextFigure }) => {
     >
       <CurrentFigure figure={currentFigure} />
 
-      <FallenFigures figures={fallenFigures} />
+      <FallenFigures figures={fallenFigures.lines} />
     </PlayingFieldWrapper>
   );
+};
+
+PlayingField.propTypes = {
+  nextFigure: PropTypes.object
+};
+PlayingField.defaultProps = {
+  nextFigure: {}
 };
 
 export default PlayingField;
