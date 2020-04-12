@@ -1,4 +1,6 @@
 export const START_GAME = "START_GAME";
+export const SET_ACTIVE_GAME = "SET_ACTIVE_GAME";
+export const SET_TIME = "SET_TIME";
 export const END_GAME = "END_GAME";
 export const ADD_POINTS = "ADD_POINTS";
 export const SPEED_UP = "SPEED_UP";

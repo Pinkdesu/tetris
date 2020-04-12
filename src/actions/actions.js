@@ -4,66 +4,79 @@ export const startGame = (player, width) => ({
   type: types.START_GAME,
   payload: {
     player,
-    width
-  }
+    width,
+  },
 });
 
-export const addPoints = count => ({
+export const setActiveGame = () => ({
+  type: types.SET_ACTIVE_GAME,
+});
+
+export const setTime = (hours, minutes, seconds) => ({
+  type: types.SET_TIME,
+  payload: {
+    hours,
+    minutes,
+    seconds,
+  },
+});
+
+export const addPoints = (count) => ({
   type: types.ADD_POINTS,
   payload: {
-    count
-  }
+    count,
+  },
 });
 
 export const endGame = () => ({
-  type: types.END_GAME
+  type: types.END_GAME,
 });
 
 export const createNextFigure = () => ({
-  type: types.CREATE_NEXT_FIGURE
+  type: types.CREATE_NEXT_FIGURE,
 });
 
 export const clearNextFigure = () => ({
-  type: types.CLEAR_NEXT_FIGURE
+  type: types.CLEAR_NEXT_FIGURE,
 });
 
 export const setCurrentFigure = (currentFigure, fallenFigures) => ({
   type: types.SET_CURRENT_FIGURE,
   payload: {
     currentFigure,
-    fallenFigures
-  }
+    fallenFigures,
+  },
 });
 
 export const clearCurrentFigure = () => ({
-  type: types.CLEAR_CURRENT_FIGURE
+  type: types.CLEAR_CURRENT_FIGURE,
 });
 
-export const rotateFigure = fallenFigures => ({
+export const rotateFigure = (fallenFigures) => ({
   type: types.ROTATE_FIGURE,
-  payload: fallenFigures
+  payload: fallenFigures,
 });
 
-export const moveDown = fallenFigures => ({
+export const moveDown = (fallenFigures) => ({
   type: types.MOVE_DOWN,
-  payload: fallenFigures
+  payload: fallenFigures,
 });
 
-export const moveLeft = fallenFigures => ({
+export const moveLeft = (fallenFigures) => ({
   type: types.MOVE_LEFT,
-  payload: fallenFigures
+  payload: fallenFigures,
 });
 
-export const moveRight = fallenFigures => ({
+export const moveRight = (fallenFigures) => ({
   type: types.MOVE_RIGHT,
-  payload: fallenFigures
+  payload: fallenFigures,
 });
 
-export const addFallenFigure = figure => ({
+export const addFallenFigure = (figure) => ({
   type: types.ADD_FALLEN_FIGURE,
-  payload: figure
+  payload: figure,
 });
 
 export const clearFilledLine = () => ({
-  type: types.CLEAR_FILLED_LINES
+  type: types.CLEAR_FILLED_LINES,
 });

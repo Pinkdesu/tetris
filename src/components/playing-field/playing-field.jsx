@@ -14,16 +14,7 @@ import {
   addFallenFigure,
   endGame,
 } from "../../actions/actions";
-import styled from "styled-components";
-
-const PlayingFieldWrapper = styled.div`
-  width: 50%;
-  height: 100%;
-  position: relative;
-  background-color: rgba(0, 0, 0, 0.6);
-  border: 1px solid black;
-  outline: none;
-`;
+import { PlayingFieldWrapper } from "../styled-components/styled-components";
 
 const PlayingField = ({ nextFigure }) => {
   const [speed, setFigureSpeed] = useState(500);

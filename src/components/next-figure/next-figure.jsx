@@ -1,33 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import Square from "../square/square";
-
-const NextFigureWrapper = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  width: 25%;
-  height: 100%;
-`;
-
-const Header = styled.h1`
-  color: #fff;
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 50px;
-`;
-
-const FigureWrapper = styled.div`
-  position: relative;
-  width: ${({ startWidth, width }) => startWidth * width}px;
-  height: ${({ startHeight, width }) => startHeight * width}px;
-`;
+import {
+  SideWrapper,
+  SideHeader,
+  FigureWrapper,
+} from "../styled-components/styled-components";
 
 const NextFigure = ({ nextFigure, width }) => {
   return (
-    <NextFigureWrapper>
-      <Header>Next figure</Header>
+    <SideWrapper>
+      <SideHeader>Next figure</SideHeader>
       <FigureWrapper
         width={width}
         startWidth={nextFigure.startWidth}
@@ -44,18 +27,18 @@ const NextFigure = ({ nextFigure, width }) => {
               />
             ))}
       </FigureWrapper>
-    </NextFigureWrapper>
+    </SideWrapper>
   );
 };
 
 NextFigure.propTypes = {
   figure: PropTypes.object,
-  width: PropTypes.number
+  width: PropTypes.number,
 };
 
 NextFigure.defaultProps = {
   figure: {},
-  width: 40
+  width: 40,
 };
 
 export default NextFigure;
