@@ -23,7 +23,7 @@ export const gameSession = (state = initialState, { type, payload }) => {
       return { ...state, isGameActive: true };
     }
     case types.ADD_POINTS: {
-      const newPoints = state.points + payload.count * 100;
+      const newPoints = state.points + 10 ** payload.count;
       return { ...state, points: newPoints };
     }
     case types.SET_TIME: {
