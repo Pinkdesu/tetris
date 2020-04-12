@@ -12,7 +12,7 @@ import {
   clearNextFigure,
   clearCurrentFigure,
   addFallenFigure,
-  clearFilledLine
+  endGame,
 } from "../../actions/actions";
 import styled from "styled-components";
 
@@ -29,8 +29,8 @@ const PlayingField = ({ nextFigure }) => {
   const [speed, setFigureSpeed] = useState(500);
   const reference = useRef(null);
   const dispatch = useDispatch();
-  const currentFigure = useSelector(state => state.currentFigure);
-  const fallenFigures = useSelector(state => state.fallenFigures);
+  const currentFigure = useSelector((state) => state.currentFigure);
+  const fallenFigures = useSelector((state) => state.fallenFigures);
 
   useEffect(() => {
     reference.current.focus();
@@ -38,22 +38,19 @@ const PlayingField = ({ nextFigure }) => {
 
   useEffect(() => {
     if (!nextFigure.isEmpty && currentFigure.isEmpty) {
-      console.log(1);
-      dispatch(setCurrentFigure(nextFigure));
+      dispatch(setCurrentFigure(nextFigure, fallenFigures));
       dispatch(clearNextFigure());
     }
-  }, [currentFigure.isEmpty, dispatch, nextFigure]);
-
-  useEffect(() => {
-    if (fallenFigures.filledLines.length !== 0) {
-      dispatch(clearFilledLine());
-    }
-  }, [dispatch, fallenFigures.filledLines]);
+  }, [currentFigure.isEmpty, dispatch, fallenFigures, nextFigure]);
 
   useEffect(() => {
     if (currentFigure.isFallen) {
-      dispatch(addFallenFigure(currentFigure));
-      dispatch(clearCurrentFigure());
+      if (currentFigure.isFallenOnStart) {
+        dispatch(endGame());
+      } else {
+        dispatch(addFallenFigure(currentFigure));
+        dispatch(clearCurrentFigure());
+      }
     }
   }, [currentFigure, dispatch]);
 
@@ -68,20 +65,21 @@ const PlayingField = ({ nextFigure }) => {
     };
   }, [dispatch, fallenFigures.lines, speed]);
 
-  const handleKeyUp = e => {
+  const handleKeyUp = (e) => {
     if (e.keyCode === 40) {
       setFigureSpeed(500);
     }
   };
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     switch (+e.keyCode) {
       case 37: {
         dispatch(moveLeft(fallenFigures.lines));
         break;
       }
       case 38: {
-        dispatch(rotateFigure(fallenFigures.lines));
+        if (currentFigure.name !== "square")
+          dispatch(rotateFigure(fallenFigures.lines));
         break;
       }
       case 39: {
@@ -104,20 +102,18 @@ const PlayingField = ({ nextFigure }) => {
       tabIndex="0"
       ref={reference}
     >
-      <CurrentFigure figure={currentFigure} />
+      <CurrentFigure currentFigure={currentFigure} />
 
-      <FallenFigures figures={fallenFigures.lines} />
+      <FallenFigures fallenFigures={fallenFigures} />
     </PlayingFieldWrapper>
   );
 };
 
 PlayingField.propTypes = {
   nextFigure: PropTypes.object,
-  width: PropTypes.number
 };
 PlayingField.defaultProps = {
   nextFigure: {},
-  width: 40
 };
 
 export default PlayingField;

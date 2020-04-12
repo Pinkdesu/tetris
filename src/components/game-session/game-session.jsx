@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const GameSessionWrapper = styled.div`
   width: 25%;
-  heigth: 100%;
+  height: 100%;
 `;
 
 const GameSession = ({ gameSession }) => {

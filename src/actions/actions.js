@@ -1,5 +1,24 @@
 import * as types from "../constants";
 
+export const startGame = (player, width) => ({
+  type: types.START_GAME,
+  payload: {
+    player,
+    width
+  }
+});
+
+export const addPoints = count => ({
+  type: types.ADD_POINTS,
+  payload: {
+    count
+  }
+});
+
+export const endGame = () => ({
+  type: types.END_GAME
+});
+
 export const createNextFigure = () => ({
   type: types.CREATE_NEXT_FIGURE
 });
@@ -8,9 +27,12 @@ export const clearNextFigure = () => ({
   type: types.CLEAR_NEXT_FIGURE
 });
 
-export const setCurrentFigure = figure => ({
+export const setCurrentFigure = (currentFigure, fallenFigures) => ({
   type: types.SET_CURRENT_FIGURE,
-  payload: figure
+  payload: {
+    currentFigure,
+    fallenFigures
+  }
 });
 
 export const clearCurrentFigure = () => ({

@@ -2,24 +2,29 @@ import React from "react";
 import PropTypes from "prop-types";
 import Square from "../square/square";
 
-const CurrentFigure = ({ figure }) => {
+const CurrentFigure = ({ currentFigure }) => {
   return (
     <>
-      {figure.isEmpty
+      {currentFigure.isEmpty
         ? null
-        : figure.coords.map((item, index) => (
-            <Square key={index} color={figure.color} x={item.x} y={item.y} />
+        : currentFigure.coords.map((item, index) => (
+            <Square
+              key={index}
+              color={currentFigure.color}
+              x={item.x}
+              y={item.y}
+            />
           ))}
     </>
   );
 };
 
 CurrentFigure.propTypes = {
-  figure: PropTypes.object
+  currentFigure: PropTypes.object
 };
 
 CurrentFigure.defaultProps = {
-  figure: {}
+  currentFigure: {}
 };
 
 export default CurrentFigure;

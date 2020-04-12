@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { clearFilledLine } from "../../actions/actions";
 import Square from "../square/square";
 import PropTypes from "prop-types";
 
-const FallenFigures = ({ figures }) => {
-  const isEmpty = Object.keys(figures).length === 0;
-  const lines = Object.entries(figures);
+const FallenFigures = ({ fallenFigures }) => {
+  const dispatch = useDispatch();
+  const lines = Object.entries(fallenFigures.lines);
+
+  useEffect(() => {
+    if (fallenFigures.filledLines.length !== 0) {
+      dispatch(clearFilledLine());
+    }
+  }, [dispatch, fallenFigures.filledLines]);
 
   return (
     <>
-      {isEmpty
+      {fallenFigures.linesCount === 0
         ? null
         : lines.map(line =>
             line[1].map((item, i) => (
@@ -20,10 +28,10 @@ const FallenFigures = ({ figures }) => {
 };
 
 FallenFigures.propTypes = {
-  figures: PropTypes.object
+  fallenFigures: PropTypes.object
 };
 FallenFigures.defaultProps = {
-  figures: {}
+  fallenFigures: {}
 };
 
 export default React.memo(FallenFigures);

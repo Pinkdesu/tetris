@@ -1,7 +1,8 @@
 import * as types from "../constants";
 
 const initialState = {
-  isEmpty: true
+  startCoords: [],
+  isEmpty: true,
 };
 
 const getRandomInRange = (min, max) =>
@@ -12,7 +13,6 @@ export const nextFigure = (state = initialState, { type }) => {
     case types.CREATE_NEXT_FIGURE: {
       const deltaX = getRandomInRange(0, 8);
       const index = getRandomInRange(0, types.FIGURES.length);
-      const positionCount = types.FIGURES[index].positionCount;
       const color = types.COLORS[getRandomInRange(0, types.COLORS.length)];
       const name = types.FIGURES[index].name;
       const startCoords = types.FIGURES[index].startCoords;
@@ -23,13 +23,12 @@ export const nextFigure = (state = initialState, { type }) => {
       return {
         name,
         color,
-        positionCount,
         position,
         deltaX,
         startWidth,
         startHeight,
         startCoords,
-        isEmpty: false
+        isEmpty: false,
       };
     }
     case types.CLEAR_NEXT_FIGURE: {

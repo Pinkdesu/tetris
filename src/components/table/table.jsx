@@ -30,12 +30,16 @@ export const Table = () => {
   }, [dispatch, nextFigure.isEmpty]);
 
   return (
-    <TableContext.Provider value={{ width: gameSession.width }}>
-      <TableWrapper width={width}>
-        <NextFigure width={width} nextFigure={nextFigure} />
-        <PlayingField width={width} nextFigure={nextFigure} />
-        <GameSession width={nextFigure} gameSession={gameSession} />
-      </TableWrapper>
-    </TableContext.Provider>
+    <>
+      {gameSession.isActive ? (
+        <TableContext.Provider value={{ width: gameSession.width }}>
+          <TableWrapper width={width}>
+            <NextFigure width={width} nextFigure={nextFigure} />
+            <PlayingField width={width} nextFigure={nextFigure} />
+            <GameSession width={nextFigure} gameSession={gameSession} />
+          </TableWrapper>
+        </TableContext.Provider>
+      ) : null}
+    </>
   );
 };
