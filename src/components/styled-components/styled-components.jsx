@@ -44,7 +44,7 @@ export const StartWindowButton = styled(StartWindowInput)`
 `;
 
 export const TableWrapper = styled.div`
-  display: flex;
+  display: ${(props) => (props.isDisplayed ? "flex" : "none")};
   flex-flow: row nowrap;
   min-width: ${(props) => 20 * props.width}px;
   width: ${(props) => 20 * props.width}px;

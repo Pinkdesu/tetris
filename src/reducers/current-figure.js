@@ -65,13 +65,7 @@ const rotateFigure = (state, coordsToCheck) => {
 export const currentFigure = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.SET_CURRENT_FIGURE: {
-      const {
-        name,
-        position,
-        color,
-        startCoords,
-        deltaX,
-      } = payload.currentFigure;
+      const { name, position, color, startCoords, deltaX } = payload.nextFigure;
       const { lines, linesCount } = payload.fallenFigures;
       const coords = [];
 

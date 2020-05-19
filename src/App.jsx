@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Table } from "./components/table/table";
 import { useSelector } from "react-redux";
 import StartWindow from "./components/start-window/start-window";
+import EndWindow from "./end-window/end-window";
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,15 +14,15 @@ const Wrapper = styled.div`
 `;
 
 const App = () => {
-  const gameSession = useSelector((state) => state.gameSession);
+  const { isGameStarted, isFirstStart } = useSelector(
+    (state) => state.gameSession
+  );
 
   return (
     <Wrapper>
-      {gameSession.isGameStarted ? (
-        <Table gameSession={gameSession} />
-      ) : (
-        <StartWindow />
-      )}
+      {isFirstStart ? <StartWindow /> : null}
+      {isGameStarted ? <Table /> : null}
+      <EndWindow />
     </Wrapper>
   );
 };

@@ -1,14 +1,9 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import NextFigure from "../next-figure/next-figure";
 import GameSession from "../game-session/game-session";
 import PlayingField from "../playing-field/playing-field";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createNextFigure,
-  setTime,
-  setActiveGame,
-} from "../../actions/actions";
+import { createNextFigure, setActiveGame } from "../../actions/actions";
 import {
   TableWrapper,
   CenterSideWrapper,
@@ -16,46 +11,60 @@ import {
 
 export const TableContext = React.createContext(null);
 
-export const Table = ({ gameSession }) => {
-  const dispatch = useDispatch();
+export const Table = () => {
+  const [prevTimer, setPrevTimer] = useState(null);
   const nextFigure = useSelector((state) => state.nextFigure);
-  const width = gameSession.width;
+  const {
+    isGameStarted,
+    isGameActive,
+    isGameFinished,
+    speed,
+    points,
+    width,
+  } = useSelector((state) => state.gameSession);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!gameSession.isGameActive && gameSession.time.seconds !== 0) {
-      const timer = setInterval(
-        () => dispatch(setTime(0, 0, gameSession.time.seconds - 1)),
-        1000
-      );
-
-      return () => {
-        clearInterval(timer);
-      };
-    } else dispatch(setActiveGame());
-  }, [dispatch, gameSession.isGameActive, gameSession.time.seconds]);
+    if (isGameStarted) {
+      setPrevTimer(3);
+    } else {
+      setPrevTimer(null);
+    }
+  }, [isGameStarted]);
 
   useEffect(() => {
-    if (nextFigure.isEmpty) dispatch(createNextFigure());
-  }, [dispatch, nextFigure.isEmpty]);
+    if (!isGameFinished && !isGameActive && prevTimer > 0) {
+      setTimeout(() => setPrevTimer(prevTimer - 1), 1000);
+    }
+    if (!isGameFinished && !isGameActive && prevTimer === 0) {
+      dispatch(setActiveGame(true));
+    }
+  }, [dispatch, isGameActive, isGameFinished, prevTimer]);
+
+  useEffect(() => {
+    if (nextFigure.isEmpty && isGameActive) dispatch(createNextFigure());
+  }, [dispatch, isGameActive, nextFigure.isEmpty]);
 
   return (
-    <TableContext.Provider value={{ width: gameSession.width }}>
-      <TableWrapper width={width}>
+    <TableContext.Provider value={{ width: width }}>
+      <TableWrapper width={width} isDisplayed={!isGameFinished}>
         <NextFigure width={width} nextFigure={nextFigure} />
-        {gameSession.isGameActive ? (
-          <PlayingField width={width} nextFigure={nextFigure} />
+        {isGameActive ? (
+          <PlayingField
+            width={width}
+            nextFigure={nextFigure}
+            isGameActive={isGameActive}
+          />
         ) : (
-          <CenterSideWrapper>{gameSession.time.seconds}</CenterSideWrapper>
+          <CenterSideWrapper>{prevTimer}</CenterSideWrapper>
         )}
-        <GameSession width={nextFigure} gameSession={gameSession} />
+        <GameSession
+          isGameActive={isGameActive}
+          isGameFinished={isGameFinished}
+          speed={speed}
+          points={points}
+        />
       </TableWrapper>
     </TableContext.Provider>
   );
-};
-
-Table.propTypes = {
-  gameSession: PropTypes.object,
-};
-Table.defaultProps = {
-  gameSession: {},
 };

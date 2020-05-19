@@ -2,25 +2,27 @@ import * as types from "../constants";
 
 let initialState = {
   player: "",
-  time: {
-    seconds: 3,
-    minutes: 0,
-    hours: 0,
-  },
   points: 0,
   speed: 500,
   width: 40,
-  isGameActive: false,
+  time: {
+    seconds: 0,
+    minutes: 0,
+    hours: 0,
+  },
+  isFirstStart: true,
   isGameStarted: false,
+  isGameActive: false,
+  isGameFinished: false,
 };
 
 export const gameSession = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.START_GAME: {
-      return { ...state, ...payload, isGameStarted: true };
+      return { ...state, ...payload, isGameStarted: true, isFirstStart: false };
     }
     case types.SET_ACTIVE_GAME: {
-      return { ...state, isGameActive: true };
+      return { ...state, isGameActive: payload.flag };
     }
     case types.ADD_POINTS: {
       const newPoints = state.points + 10 ** payload.count;
@@ -30,7 +32,10 @@ export const gameSession = (state = initialState, { type, payload }) => {
       return { ...state, time: payload };
     }
     case types.END_GAME: {
-      return { ...state, isActive: false };
+      return {
+        ...state,
+        isGameFinished: true,
+      };
     }
     default:
       return state;

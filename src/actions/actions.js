@@ -8,8 +8,11 @@ export const startGame = (player, width) => ({
   },
 });
 
-export const setActiveGame = () => ({
+export const setActiveGame = (flag) => ({
   type: types.SET_ACTIVE_GAME,
+  payload: {
+    flag,
+  },
 });
 
 export const setTime = (hours, minutes, seconds) => ({
@@ -40,10 +43,10 @@ export const clearNextFigure = () => ({
   type: types.CLEAR_NEXT_FIGURE,
 });
 
-export const setCurrentFigure = (currentFigure, fallenFigures) => ({
+export const setCurrentFigure = (nextFigure, fallenFigures) => ({
   type: types.SET_CURRENT_FIGURE,
   payload: {
-    currentFigure,
+    nextFigure,
     fallenFigures,
   },
 });

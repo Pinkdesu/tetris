@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useStopwatch } from "react-timer-hook";
 import PropTypes from "prop-types";
 import {
@@ -6,23 +7,33 @@ import {
   SideWrapper,
   SideText,
 } from "../styled-components/styled-components";
+import { setTime } from "../../actions/actions";
 
-const GameSession = ({ gameSession }) => {
-  const { seconds, minutes, hours, start, reset } = useStopwatch({
+const GameSession = ({ isGameActive, isGameFinished, speed, points }) => {
+  const dispatch = useDispatch();
+  const { seconds, minutes, hours, start, pause, isRunning } = useStopwatch({
     autoStart: false,
   });
 
   useEffect(() => {
-    if (
-      gameSession.isGameActive &&
-      seconds === 0 &&
-      minutes === 0 &&
-      hours === 0
-    ) {
+    if (isGameActive && !isGameFinished && !isRunning) {
       start();
-      console.log(1);
     }
-  }, [gameSession.isGameActive, hours, minutes, seconds, start]);
+    if (!isGameActive && isGameFinished && isRunning) {
+      pause();
+      dispatch(setTime(hours, minutes, seconds));
+    }
+  }, [
+    dispatch,
+    hours,
+    isGameActive,
+    isGameFinished,
+    isRunning,
+    minutes,
+    pause,
+    seconds,
+    start,
+  ]);
 
   return (
     <SideWrapper>
@@ -32,19 +43,25 @@ const GameSession = ({ gameSession }) => {
         {minutes > 9 ? minutes : "0" + minutes}:
         {seconds > 9 ? seconds : "0" + seconds}
       </SideText>
-      <SideText as="span">Points: {gameSession.points}</SideText>
-      <SideText as="span">Speed: {gameSession.speed}</SideText>
+      <SideText as="span">Points: {points}</SideText>
+      <SideText as="span">Speed: {speed}</SideText>
       <SideText as="span"></SideText>
     </SideWrapper>
   );
 };
 
 GameSession.propTypes = {
-  gameSession: PropTypes.object,
+  isGameActive: PropTypes.bool,
+  isGameFinished: PropTypes.bool,
+  speed: PropTypes.number,
+  points: PropTypes.number,
 };
 
 GameSession.defaultProps = {
-  gameSession: {},
+  isGameActive: false,
+  isGameFinished: true,
+  speed: 0,
+  points: 0,
 };
 
 export default GameSession;

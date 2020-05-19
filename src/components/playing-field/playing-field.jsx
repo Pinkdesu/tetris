@@ -12,11 +12,12 @@ import {
   clearNextFigure,
   clearCurrentFigure,
   addFallenFigure,
+  setActiveGame,
   endGame,
 } from "../../actions/actions";
 import { PlayingFieldWrapper } from "../styled-components/styled-components";
 
-const PlayingField = ({ nextFigure }) => {
+const PlayingField = ({ nextFigure, isGameActive }) => {
   const [speed, setFigureSpeed] = useState(500);
   const reference = useRef(null);
   const dispatch = useDispatch();
@@ -29,14 +30,26 @@ const PlayingField = ({ nextFigure }) => {
 
   useEffect(() => {
     if (!nextFigure.isEmpty && currentFigure.isEmpty) {
-      dispatch(setCurrentFigure(nextFigure, fallenFigures));
-      dispatch(clearNextFigure());
+      if (fallenFigures.linesCount !== 20) {
+        dispatch(setCurrentFigure(nextFigure, fallenFigures));
+        dispatch(clearNextFigure());
+      } else {
+        dispatch(setActiveGame(false));
+        dispatch(endGame());
+      }
     }
-  }, [currentFigure.isEmpty, dispatch, fallenFigures, nextFigure]);
+  }, [
+    currentFigure.isEmpty,
+    dispatch,
+    fallenFigures,
+    isGameActive,
+    nextFigure,
+  ]);
 
   useEffect(() => {
     if (currentFigure.isFallen) {
       if (currentFigure.isFallenOnStart) {
+        dispatch(setActiveGame(false));
         dispatch(endGame());
       } else {
         dispatch(addFallenFigure(currentFigure));
@@ -46,15 +59,17 @@ const PlayingField = ({ nextFigure }) => {
   }, [currentFigure, dispatch]);
 
   useEffect(() => {
-    const timerId = setInterval(
+    const timer = setInterval(
       () => dispatch(moveDown(fallenFigures.lines)),
       speed
     );
-
+    if (!isGameActive) {
+      clearInterval(timer);
+    }
     return () => {
-      clearTimeout(timerId);
+      clearInterval(timer);
     };
-  }, [dispatch, fallenFigures.lines, speed]);
+  }, [dispatch, fallenFigures.lines, isGameActive, speed]);
 
   const handleKeyUp = (e) => {
     if (e.keyCode === 40) {
@@ -63,26 +78,28 @@ const PlayingField = ({ nextFigure }) => {
   };
 
   const handleKeyDown = (e) => {
-    switch (+e.keyCode) {
-      case 37: {
-        dispatch(moveLeft(fallenFigures.lines));
-        break;
+    if (isGameActive) {
+      switch (+e.keyCode) {
+        case 37: {
+          dispatch(moveLeft(fallenFigures.lines));
+          break;
+        }
+        case 38: {
+          if (currentFigure.name !== "square")
+            dispatch(rotateFigure(fallenFigures.lines));
+          break;
+        }
+        case 39: {
+          dispatch(moveRight(fallenFigures.lines));
+          break;
+        }
+        case 40: {
+          setFigureSpeed(60);
+          break;
+        }
+        default:
+          break;
       }
-      case 38: {
-        if (currentFigure.name !== "square")
-          dispatch(rotateFigure(fallenFigures.lines));
-        break;
-      }
-      case 39: {
-        dispatch(moveRight(fallenFigures.lines));
-        break;
-      }
-      case 40: {
-        setFigureSpeed(60);
-        break;
-      }
-      default:
-        break;
     }
   };
 
@@ -102,9 +119,11 @@ const PlayingField = ({ nextFigure }) => {
 
 PlayingField.propTypes = {
   nextFigure: PropTypes.object,
+  isGameActive: PropTypes.bool,
 };
 PlayingField.defaultProps = {
   nextFigure: {},
+  isGameActive: false,
 };
 
 export default PlayingField;
