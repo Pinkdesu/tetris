@@ -8,6 +8,14 @@ export const startGame = (player, width) => ({
   },
 });
 
+export const clearSession = () => ({
+  type: types.CLEAR_SESSION,
+});
+
+export const restartGame = () => ({
+  type: types.RESTART_GAME,
+});
+
 export const setActiveGame = (flag) => ({
   type: types.SET_ACTIVE_GAME,
   payload: {
@@ -82,4 +90,8 @@ export const addFallenFigure = (figure) => ({
 
 export const clearFilledLine = () => ({
   type: types.CLEAR_FILLED_LINES,
+});
+
+export const clearFallenFigures = () => ({
+  type: types.CLEAR_FALLEN_FIGURES,
 });

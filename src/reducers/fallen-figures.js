@@ -1,6 +1,6 @@
 import * as types from "../constants";
 
-let initialState = { lines: {}, filledLines: [], linesCount: 0 };
+const initialState = { lines: {}, filledLines: [], linesCount: 0 };
 
 export const fallenFigures = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -50,6 +50,8 @@ export const fallenFigures = (state = initialState, { type, payload }) => {
 
       return { lines, filledLines: [], linesCount };
     }
+    case types.CLEAR_FALLEN_FIGURES:
+      return initialState;
     default:
       return state;
   }

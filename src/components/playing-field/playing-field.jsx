@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import CurrentFigure from "../current-figure/current-figure";
 import FallenFigures from "../fallen-figures/fallen-figures";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import { PlayingFieldWrapper } from "../styled-components/styled-components";
 import {
   rotateFigure,
   moveLeft,
@@ -13,9 +14,8 @@ import {
   clearCurrentFigure,
   addFallenFigure,
   setActiveGame,
-  endGame,
+  clearFallenFigures,
 } from "../../actions/actions";
-import { PlayingFieldWrapper } from "../styled-components/styled-components";
 
 const PlayingField = ({ nextFigure, isGameActive }) => {
   const [speed, setFigureSpeed] = useState(500);
@@ -24,52 +24,55 @@ const PlayingField = ({ nextFigure, isGameActive }) => {
   const currentFigure = useSelector((state) => state.currentFigure);
   const fallenFigures = useSelector((state) => state.fallenFigures);
 
+  const handleEndGame = useCallback(() => {
+    dispatch(setActiveGame(false));
+    dispatch(clearNextFigure());
+    dispatch(clearCurrentFigure());
+    dispatch(clearFallenFigures());
+  }, [dispatch]);
+
   useEffect(() => {
     reference.current.focus();
   }, []);
 
   useEffect(() => {
+    if (currentFigure.isFallen) {
+      if (currentFigure.isFallenOnStart) {
+        handleEndGame();
+      } else {
+        dispatch(addFallenFigure(currentFigure));
+        dispatch(clearCurrentFigure());
+      }
+    }
+  }, [currentFigure, dispatch, handleEndGame]);
+
+  useEffect(() => {
     if (!nextFigure.isEmpty && currentFigure.isEmpty) {
-      if (fallenFigures.linesCount !== 20) {
+      if (fallenFigures.linesCount === 20) {
+        handleEndGame();
+      } else {
         dispatch(setCurrentFigure(nextFigure, fallenFigures));
         dispatch(clearNextFigure());
-      } else {
-        dispatch(setActiveGame(false));
-        dispatch(endGame());
       }
     }
   }, [
     currentFigure.isEmpty,
     dispatch,
     fallenFigures,
+    handleEndGame,
     isGameActive,
     nextFigure,
   ]);
-
-  useEffect(() => {
-    if (currentFigure.isFallen) {
-      if (currentFigure.isFallenOnStart) {
-        dispatch(setActiveGame(false));
-        dispatch(endGame());
-      } else {
-        dispatch(addFallenFigure(currentFigure));
-        dispatch(clearCurrentFigure());
-      }
-    }
-  }, [currentFigure, dispatch]);
 
   useEffect(() => {
     const timer = setInterval(
       () => dispatch(moveDown(fallenFigures.lines)),
       speed
     );
-    if (!isGameActive) {
-      clearInterval(timer);
-    }
     return () => {
       clearInterval(timer);
     };
-  }, [dispatch, fallenFigures.lines, isGameActive, speed]);
+  }, [dispatch, fallenFigures.lines, speed]);
 
   const handleKeyUp = (e) => {
     if (e.keyCode === 40) {

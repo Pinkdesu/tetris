@@ -1,20 +1,12 @@
 import React from "react";
-import styled from "styled-components";
-import { Table } from "./components/table/table";
 import { useSelector } from "react-redux";
+import { Wrapper } from "./components/styled-components/styled-components";
 import StartWindow from "./components/start-window/start-window";
-import EndWindow from "./end-window/end-window";
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-`;
+import { Table } from "./components/table/table";
+import EndWindow from "./components/end-window/end-window";
 
 const App = () => {
-  const { isGameStarted, isFirstStart } = useSelector(
+  const { isGameStarted, isFirstStart, isGameFinished } = useSelector(
     (state) => state.gameSession
   );
 
@@ -22,7 +14,7 @@ const App = () => {
     <Wrapper>
       {isFirstStart ? <StartWindow /> : null}
       {isGameStarted ? <Table /> : null}
-      <EndWindow />
+      {isGameFinished ? <EndWindow /> : null}
     </Wrapper>
   );
 };

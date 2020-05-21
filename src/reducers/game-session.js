@@ -1,6 +1,6 @@
 import * as types from "../constants";
 
-let initialState = {
+const initialState = {
   player: "",
   points: 0,
   speed: 500,
@@ -21,6 +21,15 @@ export const gameSession = (state = initialState, { type, payload }) => {
     case types.START_GAME: {
       return { ...state, ...payload, isGameStarted: true, isFirstStart: false };
     }
+    case types.RESTART_GAME: {
+      const player = state.player;
+      return {
+        ...initialState,
+        player,
+        isGameStarted: true,
+        isFirstStart: false,
+      };
+    }
     case types.SET_ACTIVE_GAME: {
       return { ...state, isGameActive: payload.flag };
     }
@@ -35,7 +44,11 @@ export const gameSession = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isGameFinished: true,
+        isGameStarted: false,
       };
+    }
+    case types.CLEAR_SESSION: {
+      return initialState;
     }
     default:
       return state;

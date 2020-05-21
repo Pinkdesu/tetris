@@ -4,8 +4,8 @@ import { startGame } from "../../actions/actions";
 import {
   StartWindowWrapper,
   StartWindowInput,
-  StartWindowHeader,
-  StartWindowButton,
+  Header,
+  Button,
 } from "../styled-components/styled-components";
 
 const StartWindow = () => {
@@ -24,11 +24,11 @@ const StartWindow = () => {
 
   return (
     <StartWindowWrapper>
-      <StartWindowHeader>Добро пожаловать, игрок!</StartWindowHeader>
+      <Header>Добро пожаловать, игрок!</Header>
       <StartWindowInput value={value} onChange={handleInputChange} />
-      <StartWindowButton as="button" onClick={handleButtonClick}>
+      <Button as="button" onClick={handleButtonClick}>
         Начать
-      </StartWindowButton>
+      </Button>
     </StartWindowWrapper>
   );
 };

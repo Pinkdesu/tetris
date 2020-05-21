@@ -12,42 +12,32 @@ import {
 export const TableContext = React.createContext(null);
 
 export const Table = () => {
-  const [prevTimer, setPrevTimer] = useState(null);
+  const [prevTimer, setPrevTimer] = useState(3);
   const nextFigure = useSelector((state) => state.nextFigure);
-  const {
-    isGameStarted,
-    isGameActive,
-    isGameFinished,
-    speed,
-    points,
-    width,
-  } = useSelector((state) => state.gameSession);
+  const { isGameActive, isGameFinished, speed, points, width } = useSelector(
+    (state) => state.gameSession
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isGameStarted) {
-      setPrevTimer(3);
-    } else {
-      setPrevTimer(null);
-    }
-  }, [isGameStarted]);
-
-  useEffect(() => {
-    if (!isGameFinished && !isGameActive && prevTimer > 0) {
-      setTimeout(() => setPrevTimer(prevTimer - 1), 1000);
-    }
-    if (!isGameFinished && !isGameActive && prevTimer === 0) {
-      dispatch(setActiveGame(true));
+    if (!isGameActive && !isGameFinished) {
+      if (prevTimer > 0) {
+        setTimeout(() => setPrevTimer(prevTimer - 1), 1000);
+      }
+      if (prevTimer === 0) {
+        dispatch(setActiveGame(true));
+        setPrevTimer(null);
+      }
     }
   }, [dispatch, isGameActive, isGameFinished, prevTimer]);
 
   useEffect(() => {
-    if (nextFigure.isEmpty && isGameActive) dispatch(createNextFigure());
-  }, [dispatch, isGameActive, nextFigure.isEmpty]);
+    if (nextFigure.isEmpty && !isGameFinished) dispatch(createNextFigure());
+  }, [dispatch, isGameFinished, nextFigure.isEmpty]);
 
   return (
     <TableContext.Provider value={{ width: width }}>
-      <TableWrapper width={width} isDisplayed={!isGameFinished}>
+      <TableWrapper width={width}>
         <NextFigure width={width} nextFigure={nextFigure} />
         {isGameActive ? (
           <PlayingField

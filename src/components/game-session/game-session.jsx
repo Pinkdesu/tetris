@@ -7,7 +7,7 @@ import {
   SideWrapper,
   SideText,
 } from "../styled-components/styled-components";
-import { setTime } from "../../actions/actions";
+import { setTime, endGame } from "../../actions/actions";
 
 const GameSession = ({ isGameActive, isGameFinished, speed, points }) => {
   const dispatch = useDispatch();
@@ -19,9 +19,10 @@ const GameSession = ({ isGameActive, isGameFinished, speed, points }) => {
     if (isGameActive && !isGameFinished && !isRunning) {
       start();
     }
-    if (!isGameActive && isGameFinished && isRunning) {
+    if (!isGameActive && isRunning) {
       pause();
       dispatch(setTime(hours, minutes, seconds));
+      dispatch(endGame());
     }
   }, [
     dispatch,

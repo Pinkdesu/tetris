@@ -1,5 +1,14 @@
 import styled from "styled-components";
 
+export const Wrapper = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+`;
+
 export const StartWindowWrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -8,12 +17,11 @@ export const StartWindowWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.6);
   width: 400px;
   height: 200px;
-  margin-top: calc(50vh - 100px);
 `;
 
-export const StartWindowHeader = styled.h1`
-  font-size: 20px;
-  margin: 0 0 20px 0;
+export const Header = styled.h1`
+  font-size: 22px;
+  font-weight: bold;
   color: #fff;
 `;
 
@@ -34,9 +42,10 @@ export const StartWindowInput = styled.input.attrs({
   margin: 0 0 20px 0;
 `;
 
-export const StartWindowButton = styled(StartWindowInput)`
+export const Button = styled(StartWindowInput)`
   font-size: 14px;
   border: 2px solid #fff;
+  margin: 0 10px;
 
   &:hover {
     cursor: pointer;
@@ -44,14 +53,60 @@ export const StartWindowButton = styled(StartWindowInput)`
 `;
 
 export const TableWrapper = styled.div`
-  display: ${(props) => (props.isDisplayed ? "flex" : "none")};
+  display: flex;
   flex-flow: row nowrap;
   min-width: ${(props) => 20 * props.width}px;
   width: ${(props) => 20 * props.width}px;
   height: ${(props) => 20 * props.width}px;
-  margin-top: 20px;
   background-color: rgba(0, 0, 0, 0.3);
   border: 1px solid black;
+`;
+
+export const EndWindowWrapper = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 700px;
+  min-height: 500px;
+  color: #fff;
+  padding: 20px 10px 40px 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
+
+export const EndWindowText = styled.span`
+  font-size: 20px;
+  margin-bottom: 10px;
+`;
+
+export const EndWindowContent = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  margin: 20px 0;
+`;
+
+export const RatingListWrapper = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 40%;
+`;
+
+export const RatingsWrapper = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 20px;
+`;
+
+export const RatingList = styled.ol`
+  width: 100%;
+  padding: 0;
+`;
+
+export const RatingListItem = styled.li`
+  padding: 6px;
 `;
 
 export const PlayingFieldWrapper = styled.div`
@@ -80,10 +135,7 @@ export const SideWrapper = styled.div`
   height: 100%;
 `;
 
-export const SideHeader = styled.h1`
-  color: #fff;
-  font-size: 22px;
-  font-weight: bold;
+export const SideHeader = styled(Header)`
   margin-bottom: 50px;
 `;
 
