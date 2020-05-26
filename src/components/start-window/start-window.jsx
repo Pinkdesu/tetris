@@ -7,6 +7,7 @@ import {
   Header,
   Button,
 } from "../styled-components/styled-components";
+import { addUser } from "../../api/api";
 
 const StartWindow = () => {
   const [value, setValue] = useState("");
@@ -18,6 +19,7 @@ const StartWindow = () => {
 
   const handleButtonClick = () => {
     if (value !== "") {
+      addUser(value);
       dispatch(startGame(value, 40));
     }
   };
