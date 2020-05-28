@@ -1,35 +1,36 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { startGame } from "../../actions/actions";
+import { startGame, setServerStatus } from "../../actions/actions";
 import {
   StartWindowWrapper,
   StartWindowInput,
   Header,
   Button,
 } from "../styled-components/styled-components";
-import { addUser } from "../../api/api";
+import { request } from "../../api/api";
 
 const StartWindow = () => {
-  const [value, setValue] = useState("");
+  const [name, setName] = useState("");
   const dispatch = useDispatch();
 
   const handleInputChange = ({ target: { value } }) => {
-    setValue(value);
+    setName(value);
   };
 
   const handleButtonClick = () => {
-    if (value !== "") {
-      addUser(value);
-      dispatch(startGame(value, 40));
-    }
+    request
+      .post("/players", { name })
+      .then(() => dispatch(setServerStatus(true, "Connected")))
+      .catch((error) => dispatch(setServerStatus(false, error)));
+    dispatch(startGame(name, 40));
   };
 
   return (
     <StartWindowWrapper>
-      <Header>Добро пожаловать, игрок!</Header>
-      <StartWindowInput value={value} onChange={handleInputChange} />
+      <Header>Welcome player!</Header>
+      <StartWindowInput value={name} onChange={handleInputChange} />
       <Button as="button" onClick={handleButtonClick}>
-        Начать
+        Start Game
       </Button>
     </StartWindowWrapper>
   );

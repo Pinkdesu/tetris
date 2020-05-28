@@ -1,3 +1,4 @@
+export const SET_SERVER_STATUS = "SET_SERVER_STATUS";
 export const START_GAME = "START_GAME";
 export const SET_ACTIVE_GAME = "SET_ACTIVE_GAME";
 export const SET_TIME = "SET_TIME";

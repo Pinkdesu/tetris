@@ -1,5 +1,13 @@
 import * as types from "../constants";
 
+export const setServerStatus = (isConnected, message) => ({
+  type: types.SET_SERVER_STATUS,
+  payload: {
+    isConnected,
+    message,
+  },
+});
+
 export const startGame = (player, width) => ({
   type: types.START_GAME,
   payload: {

@@ -27,7 +27,7 @@ export const Header = styled.h1`
 
 export const StartWindowInput = styled.input.attrs({
   type: "text",
-  placeholder: "Введите имя",
+  placeholder: "Type your nickname",
 })`
   padding: 5px 10px;
   vertical-align: top;

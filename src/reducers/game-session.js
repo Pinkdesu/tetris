@@ -14,10 +14,17 @@ const initialState = {
   isGameStarted: false,
   isGameActive: false,
   isGameFinished: false,
+  serverStatus: {
+    isConnected: false,
+    message: "",
+  },
 };
 
 export const gameSession = (state = initialState, { type, payload }) => {
   switch (type) {
+    case types.SET_SERVER_STATUS: {
+      return { ...state, serverStatus: { ...payload } };
+    }
     case types.START_GAME: {
       return { ...state, ...payload, isGameStarted: true, isFirstStart: false };
     }
