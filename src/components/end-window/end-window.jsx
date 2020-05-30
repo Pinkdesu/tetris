@@ -38,23 +38,25 @@ const EndWindow = () => {
   };
 
   useEffect(() => {
-    request.post(`/ratings/${gameSession.player}`, {
-      point: gameSession.points,
-    });
     request
-      .get("/ratings")
-      .then((response) =>
-        setCommonRating({ rating: response.data, isDowland: true })
-      );
-    request
-      .get(`/ratings/${gameSession.player}`)
-      .then((response) =>
-        setPersonalRating({ rating: response.data, isDowland: true })
-      );
+      .post(`/ratings/${gameSession.player}`, {
+        point: gameSession.points,
+      })
+      .then(() => {
+        request
+          .get("/ratings")
+          .then((response) =>
+            setCommonRating({ rating: response.data, isDowland: true })
+          );
+        request
+          .get(`/ratings/${gameSession.player}`)
+          .then((response) =>
+            setPersonalRating({ rating: response.data, isDowland: true })
+          );
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(commonRating.rating);
   return (
     <EndWindowWrapper>
       <Header>Game over!</Header>

@@ -10,12 +10,10 @@ router.post("/players", function (req, res, next) {
     .where("name", name)
     .then((result) => {
       if (result.length === 0) {
-        db("player")
-          .insert({ name })
-          .then(() => {});
+        return db("player").insert({ name });
       }
-      res.send("Connected");
     })
+    .then(() => res.send("Updataed"))
     .catch((error) => res.send(error));
 });
 
@@ -35,16 +33,16 @@ router.get("/ratings/:name", function (req, res, next) {
   db("player")
     .select("id")
     .where("player.name", "=", playerName)
-    .then((result) => {
-      const id = result[0].id;
+    .then((playerId) => {
+      const id = playerId[0].id;
 
-      db({ rt: "rating" })
+      return db({ rt: "rating" })
         .select({ points: "rt.point" })
         .where("rt.player_id", "=", id)
         .orderBy("rt.point", "desc")
-        .limit(10)
-        .then((result) => res.send(result));
+        .limit(10);
     })
+    .then((result) => res.send(result))
     .catch((error) => res.send(error));
 });
 
@@ -56,13 +54,11 @@ router.post("/ratings/:name", function (req, res, next) {
   db("player")
     .select("id")
     .where("player.name", "=", playerName)
-    .then((result) => {
-      const id = result[0].id;
-
-      db("rating")
-        .insert({ point, date, player_id: id })
-        .then(() => {});
+    .then((playerId) => {
+      const id = playerId[0].id;
+      return db("rating").insert({ point, date, player_id: id });
     })
+    .then(() => res.send("Updated"))
     .catch((error) => res.send(error));
 });
 
