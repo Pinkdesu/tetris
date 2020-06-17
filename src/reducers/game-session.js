@@ -14,6 +14,7 @@ const initialState = {
   isGameStarted: false,
   isGameActive: false,
   isGameFinished: false,
+  isGamePaused: false,
   serverStatus: {
     isConnected: false,
     message: "",
@@ -38,7 +39,10 @@ export const gameSession = (state = initialState, { type, payload }) => {
       };
     }
     case types.SET_ACTIVE_GAME: {
-      return { ...state, isGameActive: payload.flag };
+      return { ...state, isGameActive: !state.isGameActive };
+    }
+    case types.SET_PAUSE: {
+      return { ...state, isGamePaused: !state.isGamePaused };
     }
     case types.ADD_POINTS: {
       const newPoints = state.points + 10 ** payload.count;

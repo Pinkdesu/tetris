@@ -1,6 +1,7 @@
 export const SET_SERVER_STATUS = "SET_SERVER_STATUS";
 export const START_GAME = "START_GAME";
 export const SET_ACTIVE_GAME = "SET_ACTIVE_GAME";
+export const SET_PAUSE = "SET_PAUSE";
 export const SET_TIME = "SET_TIME";
 export const END_GAME = "END_GAME";
 export const ADD_POINTS = "ADD_POINTS";

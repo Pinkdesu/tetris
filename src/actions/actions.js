@@ -31,6 +31,13 @@ export const setActiveGame = (flag) => ({
   },
 });
 
+export const setPause = (flag) => ({
+  type: types.SET_PAUSE,
+  payload: {
+    flag,
+  },
+});
+
 export const setTime = (hours, minutes, seconds) => ({
   type: types.SET_TIME,
   payload: {

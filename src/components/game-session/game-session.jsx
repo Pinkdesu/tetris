@@ -9,7 +9,13 @@ import {
 } from "../styled-components/styled-components";
 import { setTime, endGame } from "../../actions/actions";
 
-const GameSession = ({ isGameActive, isGameFinished, speed, points }) => {
+const GameSession = ({
+  isGameActive,
+  isGameFinished,
+  isGamePaused,
+  speed,
+  points,
+}) => {
   const dispatch = useDispatch();
   const { seconds, minutes, hours, start, pause, isRunning } = useStopwatch({
     autoStart: false,
@@ -21,14 +27,17 @@ const GameSession = ({ isGameActive, isGameFinished, speed, points }) => {
     }
     if (!isGameActive && isRunning) {
       pause();
-      dispatch(setTime(hours, minutes, seconds));
-      dispatch(endGame());
+      if (!isGamePaused) {
+        dispatch(setTime(hours, minutes, seconds));
+        dispatch(endGame());
+      }
     }
   }, [
     dispatch,
     hours,
     isGameActive,
     isGameFinished,
+    isGamePaused,
     isRunning,
     minutes,
     pause,
@@ -46,7 +55,8 @@ const GameSession = ({ isGameActive, isGameFinished, speed, points }) => {
       </SideText>
       <SideText as="span">Points: {points}</SideText>
       <SideText as="span">Speed: {speed}</SideText>
-      <SideText as="span"></SideText>
+      <SideHeader>Game settings</SideHeader>
+      <SideText as="span">Pause: "Esc"</SideText>
     </SideWrapper>
   );
 };

@@ -14,6 +14,7 @@ import {
   clearCurrentFigure,
   addFallenFigure,
   setActiveGame,
+  setPause,
   clearFallenFigures,
 } from "../../actions/actions";
 
@@ -83,6 +84,11 @@ const PlayingField = ({ nextFigure, isGameActive }) => {
   const handleKeyDown = (e) => {
     if (isGameActive) {
       switch (+e.keyCode) {
+        case 27: {
+          dispatch(setPause(true));
+          dispatch(setActiveGame(false));
+          break;
+        }
         case 37: {
           dispatch(moveLeft(fallenFigures.lines));
           break;
